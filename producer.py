@@ -6,10 +6,18 @@ import pandas as pd
 from RPA.Tables import Tables
 from RPA.JSON import JSON
 
-# Traffic data end-point
-traffic_data = "https://github.com/robocorp/inhuman-insurance-inc/raw/main/RS_198.json"
+# Traffic data API
+traffic_data_api = "https://github.com/robocorp/inhuman-insurance-inc/raw/main/RS_198.json"
 
+# Path to Json data file after downloding from the API
 traffic_json_file_path = "output/traffic.json"
+
+# Varibles for technical names and numbers
+max_rate = "5.0"
+rate_key = "NumericValue"
+gender_key = "Dim1"
+both_genders = "BTSX"
+year_key = "TimeDim"
 
 
 def download_traffic_data():
@@ -18,8 +26,22 @@ def download_traffic_data():
         https://robocorp.com/docs/courses/work-data-management/download-the-traffic-data
     """
     http = HTTP()
-    http.download(url=traffic_data, overwrite=True,
+    http.download(url=traffic_data_api, overwrite=True,
                   target_file="output/traffic.json")
+
+
+def filter_and_sort_traffic_data(traffic_data):
+    """
+        This encapsulate the filtering and sorting logic and return the filtered and sorted table
+    """
+    libray = Tables()
+    libray.filter_table_by_column(
+        table=traffic_data, column=rate_key, operator="<", value=max_rate)
+    libray.filter_table_by_column(
+        table=traffic_data, column=gender_key, operator="==", value=both_genders)
+
+    libray.sort_table_by_column(
+        table=traffic_data, column=year_key, ascending=False)
 
 
 def transform_the_json_into_table():
@@ -48,6 +70,9 @@ def transform_the_json_into_table():
     library = Tables()
     traffic_data = library.create_table(
         data=new_json["value"])
+
+    # Sort and filter before writing to the table
+    filter_and_sort_traffic_data(traffic_data)
 
     # Write the table to csv
     library.write_table_to_csv(

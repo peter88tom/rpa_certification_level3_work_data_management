@@ -1,4 +1,5 @@
 # rpa_certification_level3_work_data_management
+[Link to the course](https://robocorp.com/docs/courses/work-data-management)
 This course teaches us how to:
 
 - Automate a process where the target systems don't have a graphical user interface. No web browsers.
