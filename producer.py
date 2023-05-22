@@ -5,6 +5,10 @@ from RPA.HTTP import HTTP
 import pandas as pd
 from RPA.Tables import Tables
 from RPA.JSON import JSON
+from RPA.Robocorp.WorkItems import WorkItems
+
+# Item work
+wi = WorkItems()
 
 # Traffic data API
 traffic_data_api = "https://github.com/robocorp/inhuman-insurance-inc/raw/main/RS_198.json"
@@ -105,13 +109,27 @@ def get_latest_data_by_country():
     for group in traffic_by_country_key:
         latest_data_by_country.append(table.pop_table_row(group))
 
+    # transfor raw data into business data
     create_work_item_payloads(latest_data_by_country)
+
+
+def save_work_item_payload(payloads):
+    """
+        Save the payload as work items.
+        Create one work item per API payload
+
+        Documentation: https://robocorp.com/docs/libraries/rpa-framework/rpa-robocorp-workitems
+    """
+    wi.get_input_work_item()
+    for payload in payloads:
+        variables = {"traffic_data": payload}
+        wi.create_output_work_item(variables=variables, save=True)
 
 
 def create_work_item_payloads(latest_data_by_country):
     """
         The create work item payloads loops the list of traffic data - essentially rows.
-        - For each row, create a new dictionary then append to a payload
+        - For each row, create a new dictionary then append to a payloads dictionary
     """
     payloads = []
     for row in latest_data_by_country:
@@ -122,6 +140,9 @@ def create_work_item_payloads(latest_data_by_country):
         }
 
         payloads.append(payload)
+
+    # Save each payload as work item
+    save_work_item_payload(payloads)
 
 
 def main():
