@@ -41,7 +41,12 @@ def post_traffic_data_to_sales_system(payload):
         r = requests.post(
             url="https://robocorp.com/inhuman-insurance-inc/sales-system-api", json=payload)
 
-        print(r.status_code)
+        # Handle a successfuly sales system API response
+        if r.status_code == 200:
+            wi.release_input_work_item(state="Done")
+        wi.release_input_work_item(
+            state="FAILED", exception_type="APPLICATION", code="TRAFFIC_DATA_POST_FAILED",
+            message=f"This traffic_data has failed: {payload}")
     except Exception as e:
         print(e)
         pass
