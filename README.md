@@ -1,5 +1,5 @@
 # rpa_certification_level3_work_data_management
-In thisi course teaches how to:
+This course teaches us how to:
 
 - Automate a process where the target systems don't have a graphical user interface. No web browsers.
 - Structure robot using the `producer-consumer` pattern. The robot will `produce` business data from raw input data and then `consume` that data in small chucks. `work items`.
@@ -30,4 +30,4 @@ The sales API  takes in the traffic data in a specific business format, one entr
 
 Implementing a `producer -> consumer` robot you have to split the robot into logical parts. This will help you with updating and maintaining the code easily.
 
-In this robot we have separated the login into three parts named `producer.py, consumer.py, and shared.py`. We also updated the `robot.yaml` file to call the tasks using thier names.
+In this robot we have separated the logic into three parts named `producer.py, consumer.py, and shared.py`. We also updated the `robot.yaml` file to call the tasks using thier names.
