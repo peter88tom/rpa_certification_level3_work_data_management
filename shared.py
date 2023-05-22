@@ -1,4 +1,6 @@
-"""Template robot with Python."""
+"""
+	Shared settings and code
+"""
 
 
 def minimal_task():

@@ -3,8 +3,10 @@
 
 tasks:
   # Task names here are used when executing the bots, so renaming these is recommended.
-  Run Python:
-    shell: python task.py
+  Run Produce traffic data work item:
+    shell: python producer.py
+  Run Consume traffic data work item:
+    shell: python consumer.py
 
 condaConfigFile: conda.yaml
 
@@ -14,7 +16,7 @@ environmentConfigs:
   - environment_darwin_amd64_freeze.yaml
   - conda.yaml
 
-artifactsDir: output  
+artifactsDir: output
 
 PATH:
   - .
