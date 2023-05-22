@@ -1,11 +1,10 @@
 """
 	Shared settings and code
 """
+from RPA.Robocorp.WorkItems import WorkItems
 
 
-def minimal_task():
-    print("Done.")
-
-
-if __name__ == "__main__":
-    minimal_task()
+def shared_imports():
+    shared = {
+        "WORK_ITEM_NAME": "traffic_data",
+    }
