@@ -49,3 +49,21 @@ Steps that we followed:
 
 
 When naming varibles remember to use business terms in the code instead of technical terms and numbers.
+
+
+# About work items
+
+[Work Items](https://robocorp.com/docs/libraries/rpa-framework/rpa-robocorp-workitems) are using for managing data that go through multiple steps and tasks inside a process. Each step of a process receives input work items from previous step, and create output work items for next step.
+
+A work item's data payload is JSON and allows storing anything that is serializable.
+
+In our robot we created work items in a `producer.py` where after cleaning up the data we selected the required data and make them avaible for the next step(`consumer.py`) via work items.
+
+Once you run the producer tast, a `devdata/work-items-out/run-1/work-items.json` file is automatically created. A new run-n folder is created every time you run your robot. Those output work items come in handy later when implementing and testing your consumer robot since they can be used as test input for the consumer 
+
+
+# Summary of the producer robot(producer.py)
+
+- Downloads the raw traffic data.
+- Transforms the raw data into a business data format.
+- Saves he business data as work-items that can be consumed later.

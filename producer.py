@@ -119,6 +119,7 @@ def save_work_item_payload(payloads):
         Create one work item per API payload
 
         Documentation: https://robocorp.com/docs/libraries/rpa-framework/rpa-robocorp-workitems
+        https://robocorp.com/docs/libraries/rpa-framework/rpa-robocorp-workitems/keywords#create-output-work-item
     """
     wi.get_input_work_item()
     for payload in payloads:
