@@ -24,3 +24,10 @@ The sales API  takes in the traffic data in a specific business format, one entr
 - `Business exception` caused by invalid data, needs manual handling on the exception. If you can this type of exception flag the data for manual inspection.
 
 - `Application exceptions` are any exception cause by technical issues. You can resolve this by retrying actions until they succeed.
+
+
+# A Producer -> Consumer concept
+
+Implementing a `producer -> consumer` robot you have to split the robot into logical parts. This will help you with updating and maintaining the code easily.
+
+In this robot we have separated the login into three parts named `producer.py, consumer.py, and shared.py`. We also updated the `robot.yaml` file to call the tasks using thier names.
