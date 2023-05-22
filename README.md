@@ -1,5 +1,6 @@
 # rpa_certification_level3_work_data_management
 [Link to the course](https://robocorp.com/docs/courses/work-data-management)
+
 This course teaches us how to:
 
 - Automate a process where the target systems don't have a graphical user interface. No web browsers.
@@ -32,3 +33,19 @@ The sales API  takes in the traffic data in a specific business format, one entr
 Implementing a `producer -> consumer` robot you have to split the robot into logical parts. This will help you with updating and maintaining the code easily.
 
 In this robot we have separated the logic into three parts named `producer.py, consumer.py, and shared.py`. We also updated the `robot.yaml` file to call the tasks using thier names.
+
+
+# Data Filtering, Sorting and Manipulation
+
+In this course we learned different techniques for filtering, sorting and manipulating data from `JSON` file.
+
+Steps that we followed:
+
+- Download data from the remote server using [RPA.HTTP](https://robocorp.com/docs/libraries/rpa-framework/rpa-http) library, and saved it in `.json` format. You can see this in the `producer.py` file.
+
+- We used [RPA.JSON](https://robocorp.com/docs/libraries/rpa-framework/rpa-json) libray to manipulate JSON data and string
+
+- We used [RPA.Tables](https://robocorp.com/docs/libraries/rpa-framework/rpa-tables) library to transform the JSON data into a Table for easier manipulation. Also used this library to filter and sort the data.
+
+
+When naming varibles remember to use business terms in the code instead of technical terms and numbers.
