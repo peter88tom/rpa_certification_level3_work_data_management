@@ -2,7 +2,6 @@
 	Consumes traffic data work items.
 """
 from RPA.Robocorp.WorkItems import WorkItems
-from RPA.HTTP import HTTP
 import requests
 
 wi = WorkItems()
@@ -29,14 +28,6 @@ def post_traffic_data_to_sales_system(payload):
     """
         Post data to sales system
     """
-    # http = HTTP()
-    # try:
-    #     http.POST(
-    #         url="https://robocorp.com/inhuman-insurance-inc/sales-system-api", json=payload)
-    # except Exception as e:
-    #     print(e)
-    #     pass
-
     try:
         r = requests.post(
             url="https://robocorp.com/inhuman-insurance-inc/sales-system-api", json=payload)
@@ -44,6 +35,8 @@ def post_traffic_data_to_sales_system(payload):
         # Handle a successfuly sales system API response
         if r.status_code == 200:
             wi.release_input_work_item(state="Done")
+
+        # Application error occured
         wi.release_input_work_item(
             state="FAILED", exception_type="APPLICATION", code="TRAFFIC_DATA_POST_FAILED",
             message=f"This traffic_data has failed: {payload}")
@@ -60,13 +53,15 @@ def validate_traffic_data(payload):
     if len(payload['traffic_data']['country']) == 3:
         post_traffic_data_to_sales_system(payload)
     else:
-        pass
+        # Business error occured, inform
+        wi.release_input_work_item(
+            state="FAILED", exception_type="BUSINESS", code="INVALID_TRAFIC_DATA", message=f"Invalid traffic data{payload}")
 
 
 def main():
     try:
         load_work_items()
-    except Ellipsis as e:
+    except Exception as e:
         print(e)
         pass
 
