@@ -11,13 +11,16 @@ traffic_data_api = "https://github.com/robocorp/inhuman-insurance-inc/raw/main/R
 
 # Path to Json data file after downloding from the API
 traffic_json_file_path = "output/traffic.json"
+# Path go csv file that
+
 
 # Varibles for technical names and numbers
-max_rate = "5.0"
+max_rate = 5.0
 rate_key = "NumericValue"
 gender_key = "Dim1"
 both_genders = "BTSX"
 year_key = "TimeDim"
+country_key = "SpatialDim"
 
 
 def download_traffic_data():
@@ -73,17 +76,61 @@ def transform_the_json_into_table():
 
     # Sort and filter before writing to the table
     filter_and_sort_traffic_data(traffic_data)
+    # get_latest_data_by_country(traffic_data)
 
     # Write the table to csv
     library.write_table_to_csv(
         table=traffic_data, path="output/test.csv", header=True)
 
 
+def get_latest_data_by_country():
+    """
+        The traffic data is now filtered following the business rules.
+        It still contains the data for all available years per country.
+
+        We are only interested in the latest traffic data.
+
+        First, you group the data using the three-letter country code, since
+         the data is already sorted descending by year, you can get the first row of 
+         each group to get the latest available traffic data for each country.
+    """
+    data = "output/test.csv"
+
+    table = Tables()
+    traffic_data_table = table.read_table_from_csv(path=data)
+    traffic_by_country_key = table.group_table_by_column(
+        table=traffic_data_table, column=country_key)
+
+    latest_data_by_country = []
+    for group in traffic_by_country_key:
+        latest_data_by_country.append(table.pop_table_row(group))
+
+    create_work_item_payloads(latest_data_by_country)
+
+
+def create_work_item_payloads(latest_data_by_country):
+    """
+        The create work item payloads loops the list of traffic data - essentially rows.
+        - For each row, create a new dictionary then append to a payload
+    """
+    payloads = []
+    for row in latest_data_by_country:
+        payload = {
+            "country": row[country_key],
+            "year": row[year_key],
+            "rate": row[rate_key]
+        }
+
+        payloads.append(payload)
+
+
 def main():
     try:
         download_traffic_data()
         transform_the_json_into_table()
-    except:
+        get_latest_data_by_country()
+    except Exception as e:
+        print(e)
         pass
 
 
